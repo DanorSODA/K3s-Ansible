@@ -162,3 +162,7 @@ cython_debug/
 #.idea/
 
 .DS_Store
+
+roles/k3s_master/files
+
+roles/k3s_agent/files
