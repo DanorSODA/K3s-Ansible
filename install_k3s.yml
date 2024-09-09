@@ -1,0 +1,13 @@
+---
+- hosts: master
+  become: yes
+  roles:
+    - role: k3s_master
+
+- hosts: agents
+  become: yes
+  roles:
+    - role: k3s_agent
+  vars:
+    k3s_master_ip: "{{ hostvars['master']['ansible_default_ipv4']['address'] }}"
+    k3s_token: "{{ lookup('file', '/var/lib/rancher/k3s/server/node-token') }}"
