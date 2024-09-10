@@ -163,6 +163,11 @@ cython_debug/
 
 .DS_Store
 
-roles/k3s_master/files
+# Ignore all files in the roles' files directories
+roles/*/files/*
 
-roles/k3s_agent/files
+# Ignore specific files or extensions if needed
+*.tar
+*.bin
+*.exe
+*.zip
