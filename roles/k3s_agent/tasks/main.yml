@@ -1,15 +1,29 @@
 ---
+# Main playbook for setting up K3s agent node offline
+
+# Step 1: Ensure directory for K3s airgap images exists
+# This ensures that the directory for the airgap images is created before copying.
+- name: Ensure directory for K3s airgap images exists
+  file:
+    path: /var/lib/rancher/k3s/agent/images/
+    state: directory
+    mode: "0755"
+
+# Step 2: Copy the K3s binary to the agent node
 - name: Copy K3s binary to agent node
   copy:
     src: k3s
     dest: /usr/local/bin/k3s
     mode: "0755"
 
+# Step 3: Copy K3s airgap images to agent node
 - name: Copy K3s airgap images to agent node
   copy:
     src: k3s-airgap-images-amd64.tar
     dest: /var/lib/rancher/k3s/agent/images/k3s-airgap-images-amd64.tar
 
+# Step 4: Install K3s agent node
+# The INSTALL_K3S_SKIP_DOWNLOAD flag skips downloading the binary, and K3S_URL and K3S_TOKEN are used to connect to the master.
 - name: Install K3s agent node
   shell: |
     INSTALL_K3S_SKIP_DOWNLOAD=true K3S_URL=https://{{ k3s_master_ip }}:6443 K3S_TOKEN={{ k3s_token }} /usr/local/bin/k3s agent

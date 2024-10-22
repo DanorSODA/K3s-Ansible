@@ -1,8 +1,28 @@
 ---
+# Playbook for installing K3s master and agent nodes using Ansible roles
+
+# First section: Setup K3s Master node
+# ---------------------------------------------------------
+# - The 'hosts' directive specifies that the tasks in this section should be run on the 'master' node.
+# - The 'become' directive indicates that these tasks should be run as a superuser (with sudo privileges).
+# - The role 'k3s_master' refers to the role that installs the K3s master components.
 - hosts: master
   become: yes
   roles:
     - role: k3s_master
+
+# Second section: Setup K3s Agent nodes
+# ---------------------------------------------------------
+# - The 'hosts' directive specifies that the tasks in this section should be run on the 'agents' group of nodes.
+# - The 'become' directive ensures these tasks are run as a superuser (with sudo privileges).
+# - The role 'k3s_agent' refers to the role that installs the K3s agent components.
+
+# Variables:
+# - 'k3s_master_ip': This variable dynamically retrieves the IP address of the master node. It uses Ansible's 'hostvars'
+#   to get the default IPv4 address of the 'master' host.
+# - 'k3s_token': This variable fetches the K3s cluster join token from the master node. It uses the Ansible 'lookup'
+#   function to read the contents of the 'node-token' file located on the master node at '/var/lib/rancher/k3s/server/node-token'.
+#   The agents will need this token to authenticate with the master node and join the cluster.
 
 - hosts: agents
   become: yes
