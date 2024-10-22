@@ -49,9 +49,10 @@ sudo apt install ansible -y
 ```
 
 2. **K3s Binaries**
+
    Since the instal lation is done offline, you need to manually download the following K3s files:
    - K3s binary (k3s)
-   - - Airgap images (k3s-airgap-images-amd64.tar)
+   -  Airgap images (k3s-airgap-images-amd64.tar)
    You can download these from the K3s release page: https://github.com/k3s-io/k3s/releases
 
 
